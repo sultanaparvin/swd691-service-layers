@@ -7,6 +7,11 @@ class User{
     private $email;
     private $privilege;
 
+    public static $PRIVILEGE_TYPES = array('Manager','Tester','Developer');
+    public static $PRIVILEGE_MANAGER   = 1;
+    public static $PRIVILEGE_TESTER    = 2;
+    public static $PRIVILEGE_DEVELOPER = 3;
+
     public function __construct($id = null, $name = null, $username = null, $password = null, $email = null, $privilege = null){
         $this->id = $id;
         $this->name = $name;
