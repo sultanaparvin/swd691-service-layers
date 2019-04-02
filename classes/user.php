@@ -7,6 +7,15 @@ class User{
     private $email;
     private $privilege;
 
+    public function __construct($id = null, $name = null, $username = null, $password = null, $email = null, $privilege = null){
+        $this->id = $id;
+        $this->name = $name;
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        $this->privilege = $privilege;
+    }
+
     //Getters & Setters
     public function getId(){
         return $this->id;
