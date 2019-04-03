@@ -81,6 +81,7 @@ class User{
         $sql = "SELECT * FROM `users` WHERE `id`=".$id;
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make item exist with this id
+            $row = mysqli_fetch_object($res);
             $output = new User($row->id, $row->name, $row->username, $row->password, $row->email, $row->privilege);
         }
         return $output;

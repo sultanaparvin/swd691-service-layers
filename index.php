@@ -42,6 +42,23 @@
             }
         }
         // ******************************************* 
+        if($subaction === 'getbyid'){ 
+            if(is_numeric($id)){ // Check to make sure the id is numeric value
+                $item = $User->getByIdAsArray($id);
+                if($item !== false){
+                    $output = array(
+                        'success' => true,
+                        'message' => '',
+                        'item' => $item,
+                    );
+                }else{
+                    $output = array(
+                        'success' => false,
+                        'message' => 'Please provide a valid ID. No user exist with the provided ID.',
+                    );
+                }
+            }
+        }
     }else if($action === 'projects'){
 
     }else if($action === 'testcase'){
