@@ -90,7 +90,7 @@ class User{
     public function save(){
         global $conn;
         if($this->id === null){ //Insert
-            $sql = "INSERT INTO `users` (`name`,`username`,`password`,`email`,`privilege`)VALUES('".$this->name.""','".$this->username."','".$this->password."','".$this->email."','".$this->privilege."')";
+            $sql = "INSERT INTO `users` (`name`,`username`,`password`,`email`,`privilege`)VALUES('".$this->name."','".$this->username."','".$this->password."','".$this->email."','".$this->privilege."')";
             mysqli_query($conn,$sql);
         }else{ //Update
             $sql = "UPDATE `users` SET `name`='".$this->name."', `username`='".$this->username."' ,`password`='".$this->password."' ,`email`='".$this->email."' ,`privilege`='".$this->privilege."' WHERE `id`=".$this->id;
