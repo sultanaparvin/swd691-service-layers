@@ -64,7 +64,7 @@ class User{
     public function getAll(){
         $output = array();
         global $conn;
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM `users`";
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make sure table is not empty
             while($row = mysqli_fetch_object($res)){
@@ -78,7 +78,7 @@ class User{
     public function getById($id){
         $output = false;
         global $conn;
-        $sql = "SELECT * FROM users WHERE `id`=".$id;
+        $sql = "SELECT * FROM `users` WHERE `id`=".$id;
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make item exist with this id
             $output = new User($row->id, $row->name, $row->username, $row->password, $row->email, $row->privilege);
@@ -89,7 +89,7 @@ class User{
     //Get all values as array . This helps to access to private properties
     public function getAllAsArray(){
         $output = array();
-        $items = $this->getAllAsArray();
+        $items = $this->getAll();
         if(count($items) > 0){ //Check to make sure table is not empty
             foreach($items as $item){
                 $output[] = array(
