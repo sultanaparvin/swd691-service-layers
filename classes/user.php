@@ -80,8 +80,44 @@ class User{
         global $conn;
         $sql = "SELECT * FROM users WHERE `id`=".$id;
         $res = mysqli_query($conn,$sql);
-        if(mysqli_num_rows($res) > 0){ //Check to make sure table is not empty
+        if(mysqli_num_rows($res) > 0){ //Check to make item exist with this id
             $output = new User($row->id, $row->name, $row->username, $row->password, $row->email, $row->privilege);
+        }
+        return $output;
+    }
+
+    //Get all values as array . This helps to access to private properties
+    public function getAllAsArray(){
+        $output = array();
+        $items = $this->getAllAsArray();
+        if(count($items) > 0){ //Check to make sure table is not empty
+            foreach($items as $item){
+                $output[] = array(
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'username' => $item->username,
+                    'password' => $item->password,
+                    'email' => $item->email,
+                    'privilege' => $item->privilege
+                );
+            }
+        }
+        return $output;
+    }
+
+    //Get by id as array . This helps to access to private properties
+    public function getByIdAsArray($id){
+        $output = false;
+        $item = $this->getById($id);
+        if($item != false){ //Check to make item exist with this id
+            $output = array(
+                'id' => $item->id,
+                'name' => $item->name,
+                'username' => $item->username,
+                'password' => $item->password,
+                'email' => $item->email,
+                'privilege' => $item->privilege
+            );
         }
         return $output;
     }
