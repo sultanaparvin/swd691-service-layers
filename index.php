@@ -31,6 +31,7 @@
 
     //Instantiate all classes
     $User = new User();
+    $Project = new Project();
 
     //API If statement
     if($action === 'users'){
@@ -103,7 +104,7 @@
             $User->setEmail($email);
             $User->setPrivilege($privilege);
             if(count($errors)==0){
-                $newItemId = $user->save();
+                $newItemId = $User->save();
                 $output = array(
                     'success' => true,
                     'message' => 'The new user has been successfully added.',
@@ -153,7 +154,7 @@
             $User->setEmail($email);
             $User->setPrivilege($privilege);
             if(count($errors)==0){
-                $newItemId = $user->save();
+                $newItemId = $User->save();
                 $output = array(
                     'success' => true,
                     'message' => 'The user has been successfully updated.'
@@ -167,14 +168,14 @@
         }
         
         // ******************************************* Delete user
-        if($subaction === 'add'){
+        if($subaction === 'delete'){
             $User = $User->getById($id);
             $errors = array();
             if($User === false){
                 $error[] = 'There is no user with provided id.';
             }
             if(count($errors)==0){
-                $newItemId = $user->delete();
+                $User->delete();
                 $output = array(
                     'success' => true,
                     'message' => 'The user has been successfully deleted.'
@@ -187,7 +188,122 @@
             }
         }
     }else if($action === 'projects'){
-
+        // ******************************************* Get all projects
+        if($subaction === 'getall'){ 
+            $items = $Project->getAllAsArray();
+            if(count($items) > 0){
+                $output = array(
+                    'success' => true,
+                    'message' => '',
+                    'items' => $items,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => 'There is no project in the database.',
+                );
+            }
+        }
+        // ******************************************* Get project by id
+        if($subaction === 'getbyid'){ 
+            if(is_numeric($id)){ // Check to make sure the id is numeric value
+                $item = $Project->getByIdAsArray($id);
+                if($item !== false){
+                    $output = array(
+                        'success' => true,
+                        'message' => '',
+                        'item' => $item,
+                    );
+                }else{
+                    $output = array(
+                        'success' => false,
+                        'message' => 'Please provide a valid ID. No project exist with the provided ID.',
+                    );
+                }
+            }
+        }
+        // ******************************************* Add new project
+        if($subaction === 'add'){
+            $errors = array();
+            if(!empty($_POST['name'])){
+                $name = $_POST['name'];
+            }else{
+                $errors[] = 'Please provide the project name.';
+            }
+            if(!empty($_POST['description'])){
+                $description = $_POST['description'];
+            }else{
+                $errors[] = 'Please provide the project description.';
+            }
+            $Project->setName($name);
+            $Project->setDescription($description);
+            if(count($errors)==0){
+                $newItemId = $Project->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The new project has been successfully added.',
+                    'id' => $newItemId,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
+        // ******************************************* Edit project
+        if($subaction === 'edit'){
+            $Project = $Project->getById($id);
+            $errors = array();
+            if($Project === false){
+                $error[] = 'There is no project with provided id.';
+            }
+            if(!empty($_POST['name'])){
+                $name = $_POST['name'];
+            }else{
+                $errors[] = 'Please provide the project name.';
+            }
+            if(!empty($_POST['description'])){
+                $description = $_POST['description'];
+            }else{
+                $errors[] = 'Please provide the project description.';
+            }
+            $Project->setName($name);
+            $Project->setDescription($description);
+            if(count($errors)==0){
+                $newItemId = $Project->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The project has been successfully updated.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
+        
+        // ******************************************* Delete project
+        if($subaction === 'delete'){
+            $Project = $Project->getById($id);
+            $errors = array();
+            if($Project === false){
+                $error[] = 'There is no project with provided id.';
+            }
+            if(count($errors)==0){
+                $Project->delete();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The project has been successfully deleted.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
     }else if($action === 'testcase'){
 
     }else if($action === 'comments'){
