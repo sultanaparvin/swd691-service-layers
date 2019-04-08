@@ -9,9 +9,6 @@ class User{
 
     //Privilege types
     public static $PRIVILEGE_TYPES = array('Manager','Tester','Developer');
-    public static $PRIVILEGE_MANAGER   = 1;
-    public static $PRIVILEGE_TESTER    = 2;
-    public static $PRIVILEGE_DEVELOPER = 3;
 
     public function __construct($id = null, $name = null, $username = null, $password = null, $email = null, $privilege = null){
         $this->id = $id;
@@ -129,6 +126,8 @@ class User{
         if($this->id === null){ //Insert
             $sql = "INSERT INTO `users` (`name`,`username`,`password`,`email`,`privilege`)VALUES('".$this->name."','".$this->username."','".$this->password."','".$this->email."','".$this->privilege."')";
             mysqli_query($conn,$sql);
+            $this->id = mysqli_insert_id($conn);//Retrieve the auto inc id.
+            return $this->id;
         }else{ //Update
             $sql = "UPDATE `users` SET `name`='".$this->name."', `username`='".$this->username."' ,`password`='".$this->password."' ,`email`='".$this->email."' ,`privilege`='".$this->privilege."' WHERE `id`=".$this->id;
             mysqli_query($conn,$sql);
