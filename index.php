@@ -25,8 +25,8 @@
     if(!empty($_GET['id'])){
         $id = $_GET['id'];
     }
-    if(!empty($POST['id'])){
-        $id = $POST['id'];
+    if(!empty($_POST['id'])){
+        $id = $_POST['id'];
     }
 
     //Instantiate all classes
@@ -97,13 +97,13 @@
             }else{
                 $errors[] = 'Please select a privilege level.';
             }
-            $hashedPassword = sha1($password); // Encrypt the password using SHA1
-            $User->setName($name);
-            $User->setUsername($username);
-            $User->setPassword($hashedPassword);
-            $User->setEmail($email);
-            $User->setPrivilege($privilege);
             if(count($errors)==0){
+                $hashedPassword = sha1($password); // Encrypt the password using SHA1
+                $User->setName($name);
+                $User->setUsername($username);
+                $User->setPassword($hashedPassword);
+                $User->setEmail($email);
+                $User->setPrivilege($privilege);
                 $newItemId = $User->save();
                 $output = array(
                     'success' => true,
@@ -144,16 +144,16 @@
             }else{
                 $errors[] = 'Please select a privilege level.';
             }
-            if(!empty($_POST['password'])){ // If password has not been provided, don't update the password
-                $password = $_POST['password'];
-                $hashedPassword = sha1($password); // Encrypt the password using SHA1
-                $User->setPassword($hashedPassword);
-            }
-            $User->setName($name);
-            $User->setUsername($username);
-            $User->setEmail($email);
-            $User->setPrivilege($privilege);
             if(count($errors)==0){
+                if(!empty($_POST['password'])){ // If password has not been provided, don't update the password
+                    $password = $_POST['password'];
+                    $hashedPassword = sha1($password); // Encrypt the password using SHA1
+                    $User->setPassword($hashedPassword);
+                }
+                $User->setName($name);
+                $User->setUsername($username);
+                $User->setEmail($email);
+                $User->setPrivilege($privilege);
                 $newItemId = $User->save();
                 $output = array(
                     'success' => true,
@@ -235,9 +235,9 @@
             }else{
                 $errors[] = 'Please provide the project description.';
             }
-            $Project->setName($name);
-            $Project->setDescription($description);
             if(count($errors)==0){
+                $Project->setName($name);
+                $Project->setDescription($description);
                 $newItemId = $Project->save();
                 $output = array(
                     'success' => true,
@@ -268,10 +268,10 @@
             }else{
                 $errors[] = 'Please provide the project description.';
             }
-            $Project->setName($name);
-            $Project->setDescription($description);
             if(count($errors)==0){
-                $newItemId = $Project->save();
+                $Project->setName($name);
+                $Project->setDescription($description);
+                $Project->save();
                 $output = array(
                     'success' => true,
                     'message' => 'The project has been successfully updated.'
