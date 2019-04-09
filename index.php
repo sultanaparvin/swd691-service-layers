@@ -36,6 +36,14 @@
     //API If statement
     if($action === 'users'){
         // ******************************************* Get all users
+        if($subaction === 'getAllPrivileges'){ 
+            $output = array(
+                'success' => true,
+                'message' => '',
+                'items' => User::$PRIVILEGE_TYPES,
+            );
+        }
+        // ******************************************* Get all users
         if($subaction === 'getall'){ 
             $items = $User->getAllAsArray();
             if(count($items) > 0){
