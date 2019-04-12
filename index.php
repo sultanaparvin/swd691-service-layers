@@ -332,6 +332,22 @@
                 );
             }
         }
+        // ******************************************* Get comments by testcase id
+        if($subaction === 'getallbytestcaseid'){ 
+            $items = $Comment->getAllByTestCaseIdAsArray($id);
+            if(count($items) > 0){
+                $output = array(
+                    'success' => true,
+                    'message' => '',
+                    'items' => $items,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => 'There is no comments associated with the provided testcase ID.',
+                );
+            }
+        }
         // ******************************************* Get comment by id
         if($subaction === 'getbyid'){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
