@@ -32,10 +32,11 @@
     //Instantiate all classes
     $User = new User();
     $Project = new Project();
+    $Comment = new Comment();
 
     //API If statement
     if($action === 'users'){
-        // ******************************************* Get all users
+        // ******************************************* Get all privileges
         if($subaction === 'getAllPrivileges'){ 
             $output = array(
                 'success' => true,
@@ -313,9 +314,148 @@
             }
         }
     }else if($action === 'testcase'){
-
+    
     }else if($action === 'comments'){
-
+        // ******************************************* Get all comments
+        if($subaction === 'getall'){ 
+            $items = $Comment->getAllAsArray();
+            if(count($items) > 0){
+                $output = array(
+                    'success' => true,
+                    'message' => '',
+                    'items' => $items,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => 'There is no comments in the database.',
+                );
+            }
+        }
+        // ******************************************* Get comment by id
+        if($subaction === 'getbyid'){ 
+            if(is_numeric($id)){ // Check to make sure the id is numeric value
+                $item = $Comment->getByIdAsArray($id);
+                if($item !== false){
+                    $output = array(
+                        'success' => true,
+                        'message' => '',
+                        'item' => $item,
+                    );
+                }else{
+                    $output = array(
+                        'success' => false,
+                        'message' => 'Please provide a valid ID. No comment exist with the provided ID.',
+                    );
+                }
+            }
+        }
+        // ******************************************* Add new comment
+        if($subaction === 'add'){
+            $errors = array();
+            if(!empty($_POST['userId'])){
+                $userId = $_POST['userId'];
+            }else{
+                $errors[] = 'Please provide the comment userId.';
+            }
+            if(!empty($_POST['comment'])){
+                $commentText = $_POST['comment'];
+            }else{
+                $errors[] = 'Please provide a comment.';
+            }
+            if(!empty($_POST['date'])){
+                $date = $_POST['date'];
+            }else{
+                $errors[] = 'Please provide the comment date.';
+            }
+            if(!empty($_POST['testcaseId'])){
+                $testcaseId = $_POST['testcaseId'];
+            }else{
+                $errors[] = 'Please provide the comment testcaseId.';
+            }
+            if(count($errors)==0){
+                $Comment->setUserId($userId);
+                $Comment->setComment($commentText);
+                $Comment->setDate($date);
+                $Comment->setTestcaseId($testcaseId);
+                $newItemId = $Comment->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The new comment has been successfully added.',
+                    'id' => $newItemId,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
+        // ******************************************* Edit comment
+        if($subaction === 'edit'){
+            $Comment = $Comment->getById($id);
+            $errors = array();
+            if($Comment === false){
+                $error[] = 'There is no comment with provided id.';
+            }
+            if(!empty($_POST['userId'])){
+                $userId = $_POST['userId'];
+            }else{
+                $errors[] = 'Please provide the comment userId.';
+            }
+            if(!empty($_POST['comment'])){
+                $commentText = $_POST['comment'];
+            }else{
+                $errors[] = 'Please provide a comment.';
+            }
+            if(!empty($_POST['date'])){
+                $date = $_POST['date'];
+            }else{
+                $errors[] = 'Please provide the comment date.';
+            }
+            if(!empty($_POST['testcaseId'])){
+                $testcaseId = $_POST['testcaseId'];
+            }else{
+                $errors[] = 'Please provide the comment testcaseId.';
+            }
+            if(count($errors)==0){
+                $Comment->setUserId($userId);
+                $Comment->setComment($commentText);
+                $Comment->setDate($date);
+                $Comment->setTestcaseId($testcaseId);
+                $Comment->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The comment has been successfully updated.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
+        
+        // ******************************************* Delete comment
+        if($subaction === 'delete'){
+            $Comment = $Comment->getById($id);
+            $errors = array();
+            if($Comment === false){
+                $error[] = 'There is no comment with provided id.';
+            }
+            if(count($errors)==0){
+                $Comment->delete();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The comment has been successfully deleted.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
     }
 
     //Convert the output array to json and print on the screen

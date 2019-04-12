@@ -11,3 +11,4 @@ $conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 //Include classes
 require_once('classes/user.php');
 require_once('classes/project.php');
+require_once('classes/Comment.php');

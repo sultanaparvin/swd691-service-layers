@@ -68,7 +68,7 @@ class Comment{
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make item exist with this id
             $row = mysqli_fetch_object($res);
-            $output[] = new Comment($row->id, $row->userId, $row->comment, $row->date, $row->testcaseId);
+            $output = new Comment($row->id, $row->userId, $row->comment, $row->date, $row->testcaseId);
         }
         return $output;
     }
@@ -144,12 +144,12 @@ class Comment{
     public function save(){
         global $conn;
         if($this->id === null){ //Insert
-            $sql = "INSERT INTO `comments` (`name`,`userId`,`comment`,`date`,`testcaseId`)VALUES('".$this->name."',".$this->userId.",'".$this->comment."','".$this->date."',".$this->testcaseId.")";
+            $sql = "INSERT INTO `comments` (`userId`,`comment`,`date`,`testcaseId`)VALUES(".$this->userId.",'".$this->comment."','".$this->date."',".$this->testcaseId.")";
             mysqli_query($conn,$sql);
             $this->id = mysqli_insert_id($conn);//Retrieve the auto inc id.
             return $this->id;
         }else{ //Update
-            $sql = "UPDATE `comments` SET `name`='".$this->name."', `userId`=".$this->userId.", `comment`='".$this->comment."', `date`='".$this->date."', `testcaseId`=".$this->testcaseId." WHERE `id`=".$this->id;
+            $sql = "UPDATE `comments` SET `userId`=".$this->userId.", `comment`='".$this->comment."', `date`='".$this->date."', `testcaseId`=".$this->testcaseId." WHERE `id`=".$this->id;
             mysqli_query($conn,$sql);
         }
     }
