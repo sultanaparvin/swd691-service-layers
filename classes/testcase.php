@@ -134,7 +134,7 @@ class Testcase{
     }
 
      //Get all by project ID as array . This helps to access to private properties
-     public function getAllAsArray($projectId){
+     public function getAllByProjectIdAsArray($projectId){
         $output = array();
         $items = $this->getAllByProjectId($projectId);
         if(count($items) > 0){ //Check to make sure table is not empty

@@ -333,7 +333,7 @@
         }
         // ******************************************* Get testcases by project id
         if($subaction === 'getallbyprojectid'){ 
-            $items = $Testcase->getAllByProjectId($id);
+            $items = $Testcase->getAllByProjectIdAsArray($id);
             if(count($items) > 0){
                 $output = array(
                     'success' => true,
