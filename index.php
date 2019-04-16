@@ -347,6 +347,84 @@
                 );
             }
         }
+        // ******************************************* Get testcase by id
+        if($subaction === 'getbyid'){ 
+            if(is_numeric($id)){ // Check to make sure the id is numeric value
+                $item = $Testcase->getByIdAsArray($id);
+                if($item !== false){
+                    $output = array(
+                        'success' => true,
+                        'message' => '',
+                        'item' => $item,
+                    );
+                }else{
+                    $output = array(
+                        'success' => false,
+                        'message' => 'Please provide a valid ID. No testcase exist with the provided ID.',
+                    );
+                }
+            }
+        }
+        // ******************************************* Add new testcase
+        if($subaction === 'add'){
+            $errors = array();
+            if(!empty($_POST['name'])){
+                $name = $_POST['name'];
+            }else{
+                $errors[] = 'Please provide the testcase name.';
+            }
+            if(!empty($_POST['action'])){
+                $action = $_POST['action'];
+            }else{
+                $errors[] = 'Please provide the testcase action.';
+            }
+            if(!empty($_POST['expectedResult'])){
+                $expectedResult = $_POST['expectedResult'];
+            }else{
+                $errors[] = 'Please provide the testcase expected result.';
+            }
+            if(!empty($_POST['actualResult'])){
+                $actualResult = $_POST['actualResult'];
+            }else{
+                $errors[] = 'Please provide the testcase actual result.';
+            }
+            if(!empty($_POST['status'])){
+                $status = $_POST['status'];
+            }else{
+                $errors[] = 'Please provide the testcase status.';
+            }
+            if(!empty($_POST['currentUserId'])){
+                $currentUserId = $_POST['currentUserId'];
+            }else{
+                $errors[] = 'Please provide the testcase currentUserId.';
+            }
+            if(!empty($_POST['projectId'])){
+                $projectId = $_POST['projectId'];
+            }else{
+                $errors[] = 'Please provide the testcase projectId.';
+            }
+            
+            if(count($errors)==0){
+                $Testcase->setName($name);
+                $Testcase->setAction($action);
+                $Testcase->setExpectedResult($expectedResult);
+                $Testcase->setActualResult($actualResult);
+                $Testcase->setStatus($status);
+                $Testcase->setCurrentUserId($currentUserId);
+                $Testcase->setProjectId($projectId);
+                $newItemId = $Testcase->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The new testcase has been successfully added.',
+                    'id' => $newItemId,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
     }else if($action === 'comments'){
         // ******************************************* Get all comments
         if($subaction === 'getall'){ 
