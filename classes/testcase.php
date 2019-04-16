@@ -85,6 +85,20 @@ class Testcase{
         return $output;
     }
 
+    //Get all the testcases by projectID
+    public function getAllByProjectId($projectId){
+        $output = array();
+        global $conn;
+        $sql = "SELECT * FROM `testcases` WHERE `projectId`=".$projectId;
+        $res = mysqli_query($conn,$sql);
+        if(mysqli_num_rows($res) > 0){ //Check to make sure table is not empty
+            while($row = mysqli_fetch_object($res)){
+                $output[] = new Testcase($row->id, $row->name, $row->action, $row->expectedResult, $row->actualResult, $row->status, $row->currentUserId, $row->projectId);
+            }
+        }
+        return $output;
+    }
+
     //Get a testcase by id
     public function getById($id){
         $output = false;
@@ -119,6 +133,28 @@ class Testcase{
         return $output;
     }
 
+     //Get all by project ID as array . This helps to access to private properties
+     public function getAllAsArray($projectId){
+        $output = array();
+        $items = $this->getAllByProjectId($projectId);
+        if(count($items) > 0){ //Check to make sure table is not empty
+            foreach($items as $item){
+                $output[] = array(
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'action' => $item->action,
+                    'expectedResult' => $item->expectedResult,
+                    'actualResult' => $item->actualResult,
+                    'status' => $item->status,
+                    'currentUserId' => $item->currentUserId,
+                    'projectId' => $item->projectId
+                );
+            }
+        }
+        return $output;
+    }
+    
+
     //Get by id as array . This helps to access to private properties
     public function getByIdAsArray($id){
         $output = false;
@@ -137,7 +173,7 @@ class Testcase{
         }
         return $output;
     }
-//	id	name	action	expectedResult	actualResult	status	currentUserId	projectId
+    
     //Save function handle both insert and update.
     public function save(){
         global $conn;
