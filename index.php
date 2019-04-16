@@ -33,6 +33,7 @@
     $User = new User();
     $Project = new Project();
     $Comment = new Comment();
+    $Testcase = new Testcase();
 
     //API If statement
     if($action === 'users'){
@@ -313,8 +314,39 @@
                 );
             }
         }
-    }else if($action === 'testcase'){
-    
+    }else if($action === 'testcases'){
+        // ******************************************* Get all testcases
+        if($subaction === 'getall'){ 
+            $items = $Testcase->getAllAsArray();
+            if(count($items) > 0){
+                $output = array(
+                    'success' => true,
+                    'message' => '',
+                    'items' => $items,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => 'There is no testcases in the database.',
+                );
+            }
+        }
+        // ******************************************* Get testcases by project id
+        if($subaction === 'getallbyprojectid'){ 
+            $items = $Testcase->getAllByProjectId($id);
+            if(count($items) > 0){
+                $output = array(
+                    'success' => true,
+                    'message' => '',
+                    'items' => $items,
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => 'There is no testcase associated with the provided project ID.',
+                );
+            }
+        }
     }else if($action === 'comments'){
         // ******************************************* Get all comments
         if($subaction === 'getall'){ 
