@@ -425,6 +425,90 @@
                 );
             }
         }
+        // ******************************************* Edit testcase
+        if($subaction === 'edit'){
+            $Testcase = $Testcase->getById($id);
+            $errors = array();
+            if($Testcase === false){
+                $error[] = 'There is no testcase with provided id.';
+            }
+            if(!empty($_POST['name'])){
+                $name = $_POST['name'];
+            }else{
+                $errors[] = 'Please provide the testcase name.';
+            }
+            if(!empty($_POST['action'])){
+                $action = $_POST['action'];
+            }else{
+                $errors[] = 'Please provide the testcase action.';
+            }
+            if(!empty($_POST['expectedResult'])){
+                $expectedResult = $_POST['expectedResult'];
+            }else{
+                $errors[] = 'Please provide the testcase expected result.';
+            }
+            if(!empty($_POST['actualResult'])){
+                $actualResult = $_POST['actualResult'];
+            }else{
+                $errors[] = 'Please provide the testcase actual result.';
+            }
+            if(!empty($_POST['status'])){
+                $status = $_POST['status'];
+            }else{
+                $errors[] = 'Please provide the testcase status.';
+            }
+            if(!empty($_POST['currentUserId'])){
+                $currentUserId = $_POST['currentUserId'];
+            }else{
+                $errors[] = 'Please provide the testcase currentUserId.';
+            }
+            if(!empty($_POST['projectId'])){
+                $projectId = $_POST['projectId'];
+            }else{
+                $errors[] = 'Please provide the testcase projectId.';
+            }
+
+            if(count($errors)==0){
+                $Testcase->setName($name);
+                $Testcase->setAction($action);
+                $Testcase->setExpectedResult($expectedResult);
+                $Testcase->setActualResult($actualResult);
+                $Testcase->setStatus($status);
+                $Testcase->setCurrentUserId($currentUserId);
+                $Testcase->setProjectId($projectId);
+                $Testcase->save();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The testcase has been successfully updated.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
+        
+        // ******************************************* Delete comment
+        if($subaction === 'delete'){
+            $Testcase = $Testcase->getById($id);
+            $errors = array();
+            if($Testcase === false){
+                $error[] = 'There is no testcase with provided id.';
+            }
+            if(count($errors)==0){
+                $Testcase->delete();
+                $output = array(
+                    'success' => true,
+                    'message' => 'The testcase has been successfully deleted.'
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => $errors
+                );
+            }
+        }
     }else if($action === 'comments'){
         // ******************************************* Get all comments
         if($subaction === 'getall'){ 
