@@ -704,6 +704,20 @@
             'success' => true,
             'message' => 'You have been successfully logged out.'
         );
+    }else if($action === 'getuser'){
+        $output = User::getLoggedinUser();
+        if($output !== false){
+            $output = array(
+                'success' => true,
+                'message' => '',
+                'user' => $output
+            );
+        }else{
+            $output = array(
+                'success' => false,
+                'message' => array('Error! Not a valid user.')
+            );
+        }
     }
 
     //Convert the output array to json and print on the screen
