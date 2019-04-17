@@ -180,7 +180,7 @@ class User{
     }
 
     //get information of current loggedin user
-    public function getLoggedinUser(){
+    public static function getLoggedinUser(){
         $output = false;
         if(!empty($_SESSION['loggedin']) && !empty($_SESSION['userid']) && !empty($_SESSION['privilege'])){
             $User = new User();

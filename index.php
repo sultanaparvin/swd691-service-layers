@@ -666,6 +666,44 @@
                 );
             }
         }
+    }else if($action === 'login'){ 
+        $errors = array();
+        if(!empty($_POST['username'])){
+            $username = $_POST['username'];
+        }else{
+            $errors[] = 'Please enter your username.';
+        }
+        if(!empty($_POST['password'])){
+            $password = $_POST['password'];
+        }else{
+            $errors[] = 'Please enter your password.';
+        }
+        if(count($errors)== 0){
+            $result = User::login($username, $password);
+            if($result){
+                $output = array(
+                    'success' => true,
+                    'message' => 'Login was successful.',
+                    'user' => User::getLoggedinUser()
+                );
+            }else{
+                $output = array(
+                    'success' => false,
+                    'message' => array('There was an error in login. Please check your credentials and try again.')
+                );
+            }
+        }else{
+            $output = array(
+                'success' => false,
+                'message' => $errors
+            );
+        }
+    }else if($action === 'logout'){
+        User::logout();
+        $output = array(
+            'success' => true,
+            'message' => 'You have been successfully logged out.'
+        );
     }
 
     //Convert the output array to json and print on the screen
