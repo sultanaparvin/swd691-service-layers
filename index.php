@@ -34,7 +34,7 @@
     $Project = new Project();
     $Comment = new Comment();
     $Testcase = new Testcase();
-
+    
     //API If statement
     if($action === 'users'){
         // ******************************************* Get all privileges
@@ -373,8 +373,8 @@
             }else{
                 $errors[] = 'Please provide the testcase name.';
             }
-            if(!empty($_POST['action'])){
-                $action = $_POST['action'];
+            if(!empty($_POST['actionname'])){
+                $actionname = $_POST['actionname'];
             }else{
                 $errors[] = 'Please provide the testcase action.';
             }
@@ -406,7 +406,7 @@
             
             if(count($errors)==0){
                 $Testcase->setName($name);
-                $Testcase->setAction($action);
+                $Testcase->setAction($actionname);
                 $Testcase->setExpectedResult($expectedResult);
                 $Testcase->setActualResult($actualResult);
                 $Testcase->setStatus($status);
@@ -437,8 +437,8 @@
             }else{
                 $errors[] = 'Please provide the testcase name.';
             }
-            if(!empty($_POST['action'])){
-                $action = $_POST['action'];
+            if(!empty($_POST['actionname'])){
+                $actionname = $_POST['actionname'];
             }else{
                 $errors[] = 'Please provide the testcase action.';
             }
@@ -470,7 +470,7 @@
 
             if(count($errors)==0){
                 $Testcase->setName($name);
-                $Testcase->setAction($action);
+                $Testcase->setAction($actionname);
                 $Testcase->setExpectedResult($expectedResult);
                 $Testcase->setActualResult($actualResult);
                 $Testcase->setStatus($status);
