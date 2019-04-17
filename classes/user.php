@@ -169,10 +169,22 @@ class User{
 
     //isAuthorized method check to see if user is authorized to access to an endpoint.
     //isAuthorized has one parameter and that is the required privilege for access to a sepesific endpoint(This is being provided by the endpoint)
+    //required privilege is a comma seprated string containing various possible privileges
     public static function isAuthorized($requiredPrivilege){
+        $privilegesArray = explode(',',$requiredPrivilege);
         $output = false;
-        if(!empty($_SESSION['loggedin']) && $_SESSION['loggedin']==true &&!empty($_SESSION['privilege']) && $_SESSION['privilege'] == $requiredPrivilege){
+        if(!empty($_SESSION['loggedin']) && $_SESSION['loggedin']==true &&!empty($_SESSION['privilege']) && in_array($_SESSION['privilege'],$privilegesArray) && !empty($_SESSION['userid'])){
             $output = true;
+        }
+        return $output;
+    }
+
+    //get information of current loggedin user
+    public function getLoggedinUser(){
+        $output = false;
+        if(!empty($_SESSION['loggedin']) && !empty($_SESSION['userid']) && !empty($_SESSION['privilege'])){
+            $User = new User();
+            $output = $User->getByIdAsArray($_SESSION['userid']);
         }
         return $output;
     }
