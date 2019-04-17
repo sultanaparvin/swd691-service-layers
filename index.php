@@ -38,7 +38,7 @@
     //API If statement
     if($action === 'users'){
         // ******************************************* Get all privileges
-        if($subaction === 'getAllPrivileges'){ 
+        if($subaction === 'getAllPrivileges' && User::isAuthorized('Manager')){ 
             $output = array(
                 'success' => true,
                 'message' => '',
@@ -46,7 +46,7 @@
             );
         }
         // ******************************************* Get all users
-        if($subaction === 'getall'){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
             $items = $User->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -62,7 +62,7 @@
             }
         }
         // ******************************************* Get user by id
-        if($subaction === 'getbyid'){ 
+        if($subaction === 'getbyid' && User::isAuthorized('Manager')){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
                 $item = $User->getByIdAsArray($id);
                 if($item !== false){
@@ -80,7 +80,7 @@
             }
         }
         // ******************************************* Add new user
-        if($subaction === 'add'){
+        if($subaction === 'add' && User::isAuthorized('Manager')){
             $errors = array();
             if(!empty($_POST['name'])){
                 $name = $_POST['name'];
@@ -128,7 +128,7 @@
             }
         }
         // ******************************************* Edit user
-        if($subaction === 'edit'){
+        if($subaction === 'edit' && User::isAuthorized('Manager')){
             $User = $User->getById($id);
             $errors = array();
             if($User === false){
@@ -178,7 +178,7 @@
         }
         
         // ******************************************* Delete user
-        if($subaction === 'delete'){
+        if($subaction === 'delete' && User::isAuthorized('Manager')){
             $User = $User->getById($id);
             $errors = array();
             if($User === false){
@@ -199,7 +199,7 @@
         }
     }else if($action === 'projects'){
         // ******************************************* Get all projects
-        if($subaction === 'getall'){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
             $items = $Project->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -215,7 +215,7 @@
             }
         }
         // ******************************************* Get project by id
-        if($subaction === 'getbyid'){ 
+        if($subaction === 'getbyid' && User::isAuthorized('Manager')){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
                 $item = $Project->getByIdAsArray($id);
                 if($item !== false){
@@ -233,7 +233,7 @@
             }
         }
         // ******************************************* Add new project
-        if($subaction === 'add'){
+        if($subaction === 'add' && User::isAuthorized('Manager')){
             $errors = array();
             if(!empty($_POST['name'])){
                 $name = $_POST['name'];
@@ -262,7 +262,7 @@
             }
         }
         // ******************************************* Edit project
-        if($subaction === 'edit'){
+        if($subaction === 'edit' && User::isAuthorized('Manager')){
             $Project = $Project->getById($id);
             $errors = array();
             if($Project === false){
@@ -295,7 +295,7 @@
         }
         
         // ******************************************* Delete project
-        if($subaction === 'delete'){
+        if($subaction === 'delete' && User::isAuthorized('Manager')){
             $Project = $Project->getById($id);
             $errors = array();
             if($Project === false){
@@ -316,7 +316,7 @@
         }
     }else if($action === 'testcases'){
         // ******************************************* Get all testcases
-        if($subaction === 'getall'){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager,Tester')){ 
             $items = $Testcase->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -332,7 +332,7 @@
             }
         }
         // ******************************************* Get testcases by project id
-        if($subaction === 'getallbyprojectid'){ 
+        if($subaction === 'getallbyprojectid' && User::isAuthorized('Manager,Tester')){ 
             $items = $Testcase->getAllByProjectIdAsArray($id);
             if(count($items) > 0){
                 $output = array(
@@ -348,7 +348,7 @@
             }
         }
         // ******************************************* Get testcase by id
-        if($subaction === 'getbyid'){ 
+        if($subaction === 'getbyid' && User::isAuthorized('Manager,Tester,Developer')){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
                 $item = $Testcase->getByIdAsArray($id);
                 if($item !== false){
@@ -366,7 +366,7 @@
             }
         }
         // ******************************************* Add new testcase
-        if($subaction === 'add'){
+        if($subaction === 'add' && User::isAuthorized('Manager,Tester')){
             $errors = array();
             if(!empty($_POST['name'])){
                 $name = $_POST['name'];
@@ -426,7 +426,7 @@
             }
         }
         // ******************************************* Edit testcase
-        if($subaction === 'edit'){
+        if($subaction === 'edit' && User::isAuthorized('Manager,Tester,Developer')){
             $Testcase = $Testcase->getById($id);
             $errors = array();
             if($Testcase === false){
@@ -489,8 +489,8 @@
             }
         }
         
-        // ******************************************* Delete comment
-        if($subaction === 'delete'){
+        // ******************************************* Delete testcase
+        if($subaction === 'delete' && User::isAuthorized('Manager,Tester')){
             $Testcase = $Testcase->getById($id);
             $errors = array();
             if($Testcase === false){
@@ -511,7 +511,7 @@
         }
     }else if($action === 'comments'){
         // ******************************************* Get all comments
-        if($subaction === 'getall'){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
             $items = $Comment->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -527,7 +527,7 @@
             }
         }
         // ******************************************* Get comments by testcase id
-        if($subaction === 'getallbytestcaseid'){ 
+        if($subaction === 'getallbytestcaseid' && User::isAuthorized('Manager,Tester,Developer')){ 
             $items = $Comment->getAllByTestCaseIdAsArray($id);
             if(count($items) > 0){
                 $output = array(
@@ -543,7 +543,7 @@
             }
         }
         // ******************************************* Get comment by id
-        if($subaction === 'getbyid'){ 
+        if($subaction === 'getbyid' && User::isAuthorized('Manager,Tester,Developer')){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
                 $item = $Comment->getByIdAsArray($id);
                 if($item !== false){
@@ -561,7 +561,7 @@
             }
         }
         // ******************************************* Add new comment
-        if($subaction === 'add'){
+        if($subaction === 'add' && User::isAuthorized('Manager,Tester,Developer')){
             $errors = array();
             if(!empty($_POST['userId'])){
                 $userId = $_POST['userId'];
@@ -602,7 +602,7 @@
             }
         }
         // ******************************************* Edit comment
-        if($subaction === 'edit'){
+        if($subaction === 'edit' && User::isAuthorized('Manager,Tester,Developer')){
             $Comment = $Comment->getById($id);
             $errors = array();
             if($Comment === false){
@@ -647,7 +647,7 @@
         }
         
         // ******************************************* Delete comment
-        if($subaction === 'delete'){
+        if($subaction === 'delete' && User::isAuthorized('Manager,Tester,Developer')){
             $Comment = $Comment->getById($id);
             $errors = array();
             if($Comment === false){
