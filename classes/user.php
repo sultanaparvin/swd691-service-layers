@@ -140,4 +140,41 @@ class User{
         $sql = "DELETE FROM `users` WHERE `id`=".$this->id;
         mysqli_query($conn,$sql);
     }
+
+    //login method
+    public static function login($username, $password){
+        $output = false;
+        global $conn;
+        $sql = "SELECT * FROM `users` WHERE `username`='".$username."' AND `password`='".$password."'";
+        $res = mysqli_query($conn,$sql);
+        if(mysqli_num_rows($res) == 1){ //Check to make sure only one user with this credentials exist
+            $row = mysqli_fetch_object($res);
+            $_SESSION['loggedin'] = true;
+            $_SESSION['userid'] = $row->id;
+            $_SESSION['privilege'] = $row->privilege;
+            $output = true;
+        }
+        return $output;
+    }
+
+    //logout method
+    public static function logout(){
+        $output = false;
+        unset($_SESSION['loggedin']);
+        unset($_SESSION['userid']);
+        unset($_SESSION['privilege']);
+        $output = true;
+        return $output;
+    }
+
+    //isAuthorized method check to see if user is authorized to access to an endpoint.
+    //isAuthorized has one parameter and that is the required privilege for access to a sepesific endpoint(This is being provided by the endpoint)
+    public static function isAuthorized($requiredPrivilege){
+        $output = false;
+        if(!empty($_SESSION['loggedin']) && $_SESSION['loggedin']==true &&!empty($_SESSION['privilege']) && $_SESSION['privilege'] == $requiredPrivilege){
+            $output = true;
+        }
+        return $output;
+    }
+
 }

@@ -1,4 +1,6 @@
-<?php 
+<?php
+session_start();
+
 //Database conection credentials
 $db_host = 'localhost';
 $db_user = 'root';
