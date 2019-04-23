@@ -199,7 +199,7 @@
         }
     }else if($action === 'projects'){
         // ******************************************* Get all projects
-        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager,Tester,Developer')){ 
             $items = $Project->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -332,8 +332,13 @@
             }
         }
         // ******************************************* Get testcases by project id
-        if($subaction === 'getallbyprojectid' && User::isAuthorized('Manager,Tester')){ 
-            $items = $Testcase->getAllByProjectIdAsArray($id);
+        if($subaction === 'getallbyprojectid' && User::isAuthorized('Manager,Tester,Developer')){ 
+            $currentLoggedinUser = User::getLoggedinUser();
+            if($currentLoggedinUser['privilege']== 'Manager'){ // If its a manager, he/she should be able to see all testcases
+                $items = $Testcase->getAllByProjectIdAsArray($id);
+            }else{ //Otherwise only testcases assigned to himself/herself
+                $items = $Testcase->getAllByProjectIdAndCurrentUserAsArray($id,$currentLoggedinUser['id']);
+            }
             if(count($items) > 0){
                 $output = array(
                     'success' => true,

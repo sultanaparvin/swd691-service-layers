@@ -154,6 +154,28 @@ class Testcase{
         return $output;
     }
     
+    //Get all by project ID as array(Only those assigned to the current logged in user) . This helps to access to private properties 
+    public function getAllByProjectIdAndCurrentUserAsArray($projectId, $currentLoggedInUserId){
+        $output = array();
+        $items = $this->getAllByProjectId($projectId);
+        if(count($items) > 0){ //Check to make sure table is not empty
+            foreach($items as $item){
+                if($item->currentUserId == $currentLoggedInUserId){
+                    $output[] = array(
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'action' => $item->action,
+                        'expectedResult' => $item->expectedResult,
+                        'actualResult' => $item->actualResult,
+                        'status' => $item->status,
+                        'currentUserId' => $item->currentUserId,
+                        'projectId' => $item->projectId
+                    );
+                }
+            }
+        }
+        return $output;
+    }
 
     //Get by id as array . This helps to access to private properties
     public function getByIdAsArray($id){
