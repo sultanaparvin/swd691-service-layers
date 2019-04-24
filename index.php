@@ -578,11 +578,11 @@
             }else{
                 $errors[] = 'Please provide a comment.';
             }
-            if(!empty($_POST['date'])){
-                $date = $_POST['date'];
-            }else{
-                $errors[] = 'Please provide the comment date.';
-            }
+            // if(!empty($_POST['date'])){
+            //     $date = $_POST['date'];
+            // }else{
+            //     $errors[] = 'Please provide the comment date.';
+            // }
             if(!empty($_POST['testcaseId'])){
                 $testcaseId = $_POST['testcaseId'];
             }else{
@@ -591,7 +591,7 @@
             if(count($errors)==0){
                 $Comment->setUserId($userId);
                 $Comment->setComment($commentText);
-                $Comment->setDate($date);
+                $Comment->setDate(date("Y-m-d H:i:s"));
                 $Comment->setTestcaseId($testcaseId);
                 $newItemId = $Comment->save();
                 $output = array(
