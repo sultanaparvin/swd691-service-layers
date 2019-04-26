@@ -46,7 +46,7 @@
             );
         }
         // ******************************************* Get all users
-        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager,Tester,Developer')){ 
             $items = $User->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
@@ -62,7 +62,7 @@
             }
         }
         // ******************************************* Get user by id
-        if($subaction === 'getbyid' && User::isAuthorized('Manager')){ 
+        if($subaction === 'getbyid' && User::isAuthorized('Manager,Tester,Developer')){ 
             if(is_numeric($id)){ // Check to make sure the id is numeric value
                 $item = $User->getByIdAsArray($id);
                 if($item !== false){
@@ -516,7 +516,7 @@
         }
     }else if($action === 'comments'){
         // ******************************************* Get all comments
-        if($subaction === 'getall' && User::isAuthorized('Manager')){ 
+        if($subaction === 'getall' && User::isAuthorized('Manager,Tester,Developer')){ 
             $items = $Comment->getAllAsArray();
             if(count($items) > 0){
                 $output = array(
