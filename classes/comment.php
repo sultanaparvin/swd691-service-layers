@@ -50,7 +50,7 @@ class Comment{
     public function getAll(){
         $output = array();
         global $conn;
-        $sql = "SELECT * FROM `comments`";
+        $sql = "SELECT * FROM `comments` ORDER BY `date` DESC";
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make sure table is not empty
             while($row = mysqli_fetch_object($res)){
@@ -78,7 +78,7 @@ class Comment{
     public function getAllByTestCaseId($testcaseId){
         $output = array();
         global $conn;
-        $sql = "SELECT * FROM `comments` WHERE `testcaseId`=".$testcaseId;
+        $sql = "SELECT * FROM `comments` WHERE `testcaseId`=".$testcaseId." ORDER BY `date` DESC";
         $res = mysqli_query($conn,$sql);
         if(mysqli_num_rows($res) > 0){ //Check to make sure table is not empty
             while($row = mysqli_fetch_object($res)){

@@ -684,7 +684,8 @@
             $errors[] = 'Please enter your password.';
         }
         if(count($errors)== 0){
-            $result = User::login($username, $password);
+            $hashedPassword = sha1($password); // Encrypt the password using SHA1
+            $result = User::login($username, $hashedPassword);
             if($result){
                 $output = array(
                     'success' => true,

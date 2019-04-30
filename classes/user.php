@@ -94,7 +94,7 @@ class User{
                     'id' => $item->id,
                     'name' => $item->name,
                     'username' => $item->username,
-                    'password' => $item->password,
+                    // 'password' => $item->password,
                     'email' => $item->email,
                     'privilege' => $item->privilege
                 );
@@ -112,7 +112,7 @@ class User{
                 'id' => $item->id,
                 'name' => $item->name,
                 'username' => $item->username,
-                'password' => $item->password,
+                // 'password' => $item->password,
                 'email' => $item->email,
                 'privilege' => $item->privilege
             );
